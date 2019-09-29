@@ -1,0 +1,105 @@
+/* This file is for your main application css. */
+
+@import "../../deps/phoenix_live_view/assets/css/live_view.css";
+
+body, input {
+  font-size: 30px !important;
+  font-family: "Courier new";
+}
+
+.mainGrid {
+  display: grid;
+  grid-row-gap: 20px;
+  grid-template-columns: 100%;
+  justify-items: center;
+}
+
+.form {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.loadGrid {
+  display: grid;
+  grid-row-gap: 2px;
+  grid-column-gap: 1ch;
+  grid-template-columns: 50% 50%;
+  font-size: 30px !important;
+  width:70%;
+  margin: auto;
+}
+
+.loadGrid form {
+  justify-self: right;
+}
+
+.loadGrid form input {
+  text-align: right;
+  width: 10ch;
+}
+
+.loadGrid button {
+  display: none;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  font-size: 30px !important;
+  justify-items: center;
+  height: 100px;
+  width: 90%;
+}
+
+.graphGrid {
+  display: grid;
+  grid-template-columns: 100%;
+  justify-items: center;
+}
+
+.highlight {
+  background-color: lightgray;
+}
+
+.paragraph {
+  padding-top: 30px;
+}
+
+.topDashboard {
+  display: grid;
+  grid-template-columns: fit-content(40%) fit-content(60%) auto;
+  width:100%;
+  column-gap: 30px;
+  margin: auto;
+  justify-items: left;
+}
+
+.processesGrid {
+  font-size: 20px !important;
+  display: grid;
+  grid-template-columns: fit-content(70%) fit-content(33%) fit-content(33%);
+  column-gap: 30px;
+  margin: auto;
+  justify-items: left;
+}
+
+.header {
+  justify-self: center;
+  font-weight: bold;
+}
+
+.cpu {
+  text-align: right;
+  justify-self: right;
+  min-width: 4ch;
+}
+
+.output {
+  font-size: 16px;
+  font-weight: lighter;
+  margin-top: 4px;
+}
+
+.sumForm, .sumForm input {
+  font-size: 30px !important;
+}
