@@ -15,39 +15,57 @@ app.get('/healthcheck', function healthcheck(req, res) {
 
 app.get('/sum/:number', function (req, res){
   log('sum sync');
-  sum = 0;
-  for (i = 0; i <= req.params.number; i++){
-    sum = sum + i;
+
+  let from = 0;
+  const to = parseInt(req.params.number)
+  let sum = 0;
+  
+  do {
+    from++
+    sum = sum + from;
   }
+  while (from != to)
+
   res.send(`The sum is ${sum}`);
 })
 
 app.get('/sum-async/:number', async function (req, res){
   log('sum async');
-  sum = 0;
+
+  let from = 0;
+  const to = parseInt(req.params.number)
+  let sum = 0;
 
   const summer = async (sum, i) => sum + i;
-
-  for (i = 0; i <= req.params.number; i++){
-    sum = await summer(sum, i)
+  
+  do {
+    from++
+    sum = sum = await summer(sum, from)
   }
+  while (from != to)
+
   res.send(`The sum is ${sum}`);
 })
 
 app.get('/sum-async-fancy/:number', async function (req, res) {
   log('computing async with setImmidiate!');
-  sum = 0;
+  
+  let from = 0;
+  const to = parseInt(req.params.number)
+  let sum = 0;
 
   function setImmediatePromise() {
     return new Promise((resolve) => {
       setImmediate(() => resolve());
     });
   }
-
-  for (i = 0; i <= req.params.number; i++){
-    sum = sum + i;
+  
+  do {
+    from++
+    sum = sum + from;
     await setImmediatePromise()
   }
+  while (from != to)
 
   res.send(`The sum is ${sum}`);
 });
