@@ -13,50 +13,43 @@ app.get('/healthcheck', function healthcheck(req, res) {
   res.send('all good!\n')
 });
 
-const crypto = require('crypto');
-
-function randomString() {
-  return crypto.randomBytes(100).toString('hex');
-}
-
-app.get('/compute-sync', function computeSync(req, res) {
-  log('computing sync!');
-  const hash = crypto.createHash('sha256');
-  for (let i=0; i < 10e6; i++) {
-    hash.update(randomString())
+app.get('/sum/:number', function (req, res){
+  log('sum sync');
+  sum = 0;
+  for (i = 0; i <= req.params.number; i++){
+    sum = sum + i;
   }
-  res.send(hash.digest('hex') + '\n');
-});
+  res.send(`The sum is ${sum}`);
+})
 
-app.get('/compute-async', async function computeAsync(req, res) {
-    log('computing async!');
-  
-    const hash = crypto.createHash('sha256');
-  
-    const asyncUpdate = async () => hash.update(randomString());
-  
-    for (let i = 0; i < 10e6; i++) {
-      await asyncUpdate();
-    }
-    res.send(hash.digest('hex') + '\n');
-  });
+app.get('/sum-async/:number', async function (req, res){
+  log('sum async');
+  sum = 0;
 
+  const summer = async (sum, i) => sum + i;
 
-app.get('/compute-with-set-immediate', async function computeWSetImmediate(req, res) {
-    log('computing async with setImmidiate!');
+  for (i = 0; i <= req.params.number; i++){
+    sum = await summer(sum, i)
+  }
+  res.send(`The sum is ${sum}`);
+})
 
-    function setImmediatePromise() {
-        return new Promise((resolve) => {
-        setImmediate(() => resolve());
-        });
-    }
+app.get('/sum-async-fancy/:number', async function (req, res) {
+  log('computing async with setImmidiate!');
+  sum = 0;
 
-    const hash = crypto.createHash('sha256');
-    for (let i = 0; i < 10e6; i++) {
-        hash.update(randomString());
-        await setImmediatePromise()
-    }
-    res.send(hash.digest('hex') + '\n');
+  function setImmediatePromise() {
+    return new Promise((resolve) => {
+      setImmediate(() => resolve());
+    });
+  }
+
+  for (i = 0; i <= req.params.number; i++){
+    sum = sum + i;
+    await setImmediatePromise()
+  }
+
+  res.send(`The sum is ${sum}`);
 });
 
 const PORT = process.env.PORT || 1337;
